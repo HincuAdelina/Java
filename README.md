@@ -72,6 +72,8 @@ public class OpenApiConfig {
 }
 ```
 
+Exemplu adaugare produs la un restaurant:  
+![image](https://github.com/HincuAdelina/Java/assets/80088876/02cf2628-e76f-4794-9bda-4c5fe388b784)
 
 
 
