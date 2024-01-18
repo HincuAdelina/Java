@@ -55,12 +55,48 @@ DriverService, OrderService, ProductService, RestaurantService, UserService
 Test coverage  
 ![image](https://github.com/HincuAdelina/Java/assets/80088876/5e94e51b-e215-4787-8dc7-80b306d5e33e)
 
+### Validating the POJO classes
+```java
+@Column(name = "name", nullable = false)
+@NotBlank(message = "Name cannot be missing.")
+@Size(min = 3, max = 50)
+    private String name;
+```
+
+```java
+@Column(name = "phonenumber", nullable = false)
+@NotBlank(message = "Phone number cannot be missing.")
+@Pattern(regexp = "[0-9]{10}", message = "The phone number must be valid.")
+    private String phonenumber;
+```
+
+### Exceptions
+
+```java
+public class RestaurantNotFoundException extends RuntimeException {
+
+    public RestaurantNotFoundException(int id) {
+        super("The restaurant with id: '" + id + "' does not exist.");
+    }
+    
+}
+```
+
+```java
+@ExceptionHandler({RestaurantNotFoundException.class, UserNotFoundException.class, DriverNotFoundException.class, ProductNotFoundException.class, OrderNotFoundException.class})
+    public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage() + " at " + LocalDateTime.now());
+    }
+```
+
 
 ### Swagger
 
 ![image](https://github.com/HincuAdelina/Java/assets/80088876/f78d49cc-d9db-4923-8c94-0f521c12f89c)
 
-```@Configuration
+```java
+@Configuration
 public class OpenApiConfig {
     @Bean
     public OpenAPI openAPI() {
@@ -70,6 +106,12 @@ public class OpenApiConfig {
                         .description("Master IS"));
     }
 }
+```
+
+```java
+@Tag(name = "Restaurant Controller", description = "Manage Restaurants")
+@RestController
+public class RestaurantController {
 ```
 
 Exemplu adaugare produs la un restaurant:  
